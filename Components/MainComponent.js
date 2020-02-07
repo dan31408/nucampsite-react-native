@@ -1,30 +1,37 @@
 import React, { Component } from 'react';
 import Directory from './DirectoryComponent';
 import CampsiteInfo from './CampsiteInfoComponent';
-import { View } from 'react-native';
+import { View, Platform } from 'react-native';
 import { CAMPSITES } from '../shared/campsites';
+import { creatStackNavigator } from 'react-navigation';
+
+const DirectoryNavigator = creatStackNavigator(
+    { 
+    Directory: { screen: Directory},
+    CampsiteInfo: { screen: CampsiteInfo}
+    },
+    {
+        initialRouteName: 'Directory',
+        navigationOptions: {
+            headerStyle: {
+                backgroundColor: '#5637DD'
+            },
+            headerTintColor: '#fff',
+            headerTitleStyle: {
+                color: '#fff'
+            }
+        }
+    }
+);
 
 class Main extends Component {
-    constructor(props) {
-        super(props);
-        this.state = {
-          campsites: CAMPSITES,
-          selectedCampsite: null
-        };
-    }
-
-    onCampsiteSelect(campsiteId) {
-        this.setState({selectedCampsite: campsiteId});
-    }
-
-    render() {
-        return (
-    <View style={{flex: 1}}>
-        <Directory campsites={this.state.campsites} />;
-        <CampsiteInfo campsite={this.state.campsites.filter(campsite => campsite.id === this.state.selectedCampsite)[0]} />
-    </View>
-        )
-    }
+  render() {
+      return (
+          <View style={{flex: 1, paddingTop: Platform.OS === 'ios' ? 0 : Expo.Constants.statusBarHeight }}>
+            <DirectoryNavigator />
+          </View>
+      );
+  }
 }
 
 export default Main;
