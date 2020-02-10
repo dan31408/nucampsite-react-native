@@ -40,7 +40,7 @@ class About extends Component {
                 <ListItem
                     title={item.name}
                     subtitle={item.description}
-                    leftAvatar={{ source: require("./images/bootstrap-logo.png") }}
+                    leftAvatar={{ source: require("../images/bootstrap-logo.png") }}
                 />
             )
         }

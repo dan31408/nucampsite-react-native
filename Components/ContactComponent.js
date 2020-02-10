@@ -27,32 +27,5 @@ class Contact extends Component {
     };
 }
 
-const HomeNavigator = createStackNavigator(
-    {
-      Home: { screen: Home }
-    },
-    {
-      navigationOptions: {
-        headerStyle: {
-          backgroundColor: "#5637DD"
-        },
-        headerTintColor: "#fff",
-        headerTitleStyle: {
-          color: "#fff"
-        }
-      }
-    }
-  );
-
-  const HomeNavigator = createDrawerNavigator(
-    {
-      Home: { screen: HomeNavigator },
-      Directory: { screen: DirectoryNavigator }
-    },
-    {
-      drawerBackgroundColor: "#CEC8FF"
-    }
-  );
-
 
 export default Contact;
