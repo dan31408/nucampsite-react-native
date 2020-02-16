@@ -1,5 +1,4 @@
 import React from 'react';
-import { ActivityIndicator } from 'react-native';
 import { ActivityIndicator, StyleSheet, Text, View } from 'react-native';
 
 function Loading() {
