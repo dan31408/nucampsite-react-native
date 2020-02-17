@@ -159,11 +159,18 @@ class CampsiteInfo extends Component {
             ></Rating>
             <Input
                placeholder
-               leftIconleftIconContainerStyle
-               onChangeText
+               leftIcon= 'user-o'
+               leftIconContainerStyle='padding-right=10'
+               onChangeText='5'
                value
             >Author</Input>
-            <Input>Comment</Input>
+            <Input
+                placeholder
+                leftIcon= 'comment-o'
+                leftIconContainerStyle='padding-right=10'
+                onChangeText='5'
+                value
+            >Comment</Input>
             <Button></Button>
             <Button
               onPress={() => {
@@ -171,6 +178,7 @@ class CampsiteInfo extends Component {
               }}
               color="#808080"
               title="Cancel"
+
             />
           </View>
         </Modal>
