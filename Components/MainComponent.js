@@ -4,7 +4,6 @@ import Directory from "./DirectoryComponent";
 import About from "./AboutComponent";
 import Contact from "./ContactComponent";
 import Reservation from './ReservationComponent';
-import CampsiteInfo from "./CampsiteInfoComponent";
 import { Icon } from 'react-native-elements';
 import { View, Platform, StyleSheet, Text, ScrollView, Image } from "react-native";
 import { createStackNavigator, createDrawerNavigator, 
