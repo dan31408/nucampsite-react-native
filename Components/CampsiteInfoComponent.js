@@ -12,6 +12,7 @@ import { Card, Icon, Rating, Input } from "react-native-elements";
 import { connect } from "react-redux";
 import { baseUrl } from "../shared/baseUrl";
 import { postFavorite } from "../redux/ActionCreators";
+import * as Animatable from 'react-native-animatable';
 
 const mapStateToProps = state => {
   return {
@@ -26,11 +27,12 @@ const mapDispatchToProps = {
 };
 
 function RenderCampsite(props) {
+
   const { campsite } = props;
 
   if (campsite) {
     return (
-      <View style={styles.cardRow}>
+      <Animatable.View animation='fadeInDown' duration={2000} delay={1000} style={styles.cardRow}>
         <Card
           featuredTitle={campsite.name}
           image={{ uri: baseUrl + campsite.image }}
@@ -58,7 +60,7 @@ function RenderCampsite(props) {
             onPress={() => props.onShowModal()}
           />
         </Card>
-      </View>
+      </Animatable.View>
     );
   }
   return <View />;

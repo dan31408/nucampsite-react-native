@@ -4,6 +4,7 @@ import { Card, ListItem } from 'react-native-elements';
 import { connect } from 'react-redux';
 import Loading from './LoadingComponent';
 import { baseUrl } from '../shared/baseUrl';
+import * as Animatable from 'react-native-animatable';
 
 const mapStateToProps = state => {
     return {
@@ -53,24 +54,27 @@ class About extends Component {
                 <Mission />
                 <Card title="Community Partners">
                     <Loading />
-                </Card>
+                </Card>               
             </ScrollView>
             );
         }
 
         if (this.props.partners.errMess) {
             return (
-                <ScrollView>
+                <ScrollView>  
+                    <Animatable.View animation='fadeInDown' duration={2000} delay={1000}>               
                 <Mission />
                 <Card 
                     title="Community Partners">
                     <Text>{this.props.partners.errMess}</Text> 
-                </Card>
+                </Card>   
+                </Animatable.View>            
             </ScrollView>
             );
         }
         return (
             <ScrollView>
+                <Animatable.View animation='fadeInDown' duration={2000} delay={1000}>
                 <Mission />
                 <Card title="Community Partners">
                     <FlatList
@@ -79,6 +83,7 @@ class About extends Component {
                         renderItem={renderPartner}
                     />
                 </Card>
+                </Animatable.View>
             </ScrollView>
         )
     };
