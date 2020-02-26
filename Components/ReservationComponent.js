@@ -1,4 +1,5 @@
 import React, { Component } from "react";
+import { Notifications } from 'expo';
 import {
   Text,
   View,
@@ -8,6 +9,7 @@ import {
   Button,
   Alert
 } from "react-native";
+import * as Permissions from 'expo-permissions';
 import * as Animatable from "react-native-animatable";
 import DatePicker from "react-native-datepicker";
 
@@ -61,6 +63,28 @@ class Reservation extends Component {
       date: ""
     });
   }
+
+  async obtainNotificationPermission() {
+    const permission = await Permissions.getAsync(Permissions.USER_FACING_NOTIFICATIONS);
+    if (permission.status !== 'granted') {
+        const permission = await Permissions.askAsync(Permissions.USER_FACING_NOTIFICATIONS);
+        if (permission.status !== 'granted') {
+            Alert.alert('Permission not granted to show notifications');
+        }
+        return permission;
+    }
+    return permission;
+}
+
+async presentLocalNotification(date) {
+    const permission = await this.obtainNotificationPermission();
+    if (permission.status === 'granted') {
+        Notifications.presentLocalNotificationAsync({
+            title: 'Your Campsite Reservation Search',
+            body: 'Search for ' + date + ' requested'
+        });
+    }
+}
 
   render() {
     return (
@@ -141,13 +165,12 @@ if (campsite.id) {
     },
     {
       text: "OK",
-      onPress: () =>
-        props.favorite
-          ? console.log("Already set as a favorite")
-          : props.markFavorite()
+      onPress: () => {
+        this.presentLocalNotifications(this.state.date);
+        this.resetForm();
+    }
     }
   );
-}
 
 const styles = StyleSheet.create({
   formRow: {
@@ -165,5 +188,6 @@ const styles = StyleSheet.create({
     flex: 1
   }
 });
+}
 
 export default Reservation;
