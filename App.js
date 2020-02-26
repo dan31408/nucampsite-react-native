@@ -1,13 +1,13 @@
 import React from "react";
 import Main from "./components/MainComponent";
 import Loading from "./components/LoadingComponent";
-import { persistGate } from "redux-persist/es/integration/react";
+import { PersistGate } from "redux-persist/es/integration/react";
 import { Provider } from "react-redux";
 import { ConfigureStore } from "./redux/configureStore";
 
 console.disableYellowBox = true;
 
-const store = ConfigureStore();
+const {persistor, store } = ConfigureStore();
 
 export default function App() {
   return (

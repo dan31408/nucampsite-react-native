@@ -36,6 +36,13 @@ function RenderCampsite(props) {
 
   const view = React.createRef();
 
+  const recognizeComment = PanResponder.create({
+    onStartShouldSetPanResponder: () => true,
+      onPanResponderEnd: (e, gesterState) => {
+        {console.log('pan responder end', recognizeComment);}
+      }
+  });
+
   const panResponder = PanResponder.create({
     onStartShouldSetPanResponder: () => true,
     onPanResponderEnd: (e, gestureState) => {
@@ -70,7 +77,7 @@ function RenderCampsite(props) {
       duration={2000} 
       delay={1000}
       ref={view}
-      {...PanResponder.panHandlers}>
+      {...panResponder.panHandlers}>
         <Card
           featuredTitle={campsite.name}
           image={{ uri: baseUrl + campsite.image }}
@@ -143,10 +150,8 @@ class CampsiteInfo extends Component {
     this.props.postFavorite(campsiteId);
   }
 
-  toggleModal() {
-    this.setState({
-      showModal: !this.state.showModal
-    });
+  recognizeComment(campsiteId) {
+    this.props.recognizeComment(campsiteId);
   }
 
   handleComment(campsiteId) {
