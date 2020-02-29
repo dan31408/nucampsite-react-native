@@ -8,13 +8,14 @@ import {
   Button,
   StyleSheet,
   Alert,
-  PanResponder
+  PanResponder,
+  Share
 } from "react-native";
 import { Card, Icon, Rating, Input } from "react-native-elements";
 import { connect } from "react-redux";
 import { baseUrl } from "../shared/baseUrl";
 import { postFavorite } from "../redux/ActionCreators";
-import * as Animatable from 'react-native-animatable';
+import * as Animatable from "react-native-animatable";
 
 const mapStateToProps = state => {
   return {
@@ -28,56 +29,73 @@ const mapDispatchToProps = {
   postFavorite: campsiteId => postFavorite(campsiteId)
 };
 
-function RenderCampsite(props) {
+const shareCampsite = (title, message, url) => {
+  Share.share(
+    {
+      title: title,
+      message: `${title}: ${message} ${url}`,
+      url: url
+    },
+    {
+      dialogTitle: "Share " + title
+    }
+  );
+};
 
+function RenderCampsite(props) {
   const { campsite } = props;
 
-  const recognizeDrag = ({dx}) => (dx < -200) ? true : false;
+  const recognizeDrag = ({ dx }) => (dx < -200 ? true : false);
 
   const view = React.createRef();
 
   const recognizeComment = PanResponder.create({
     onStartShouldSetPanResponder: () => true,
-      onPanResponderEnd: (e, gesterState) => {
-        {console.log('pan responder end', recognizeComment);}
+    onPanResponderEnd: (e, gesterState) => {
+      {
+        console.log("pan responder end", recognizeComment);
       }
+    }
   });
 
   const panResponder = PanResponder.create({
     onStartShouldSetPanResponder: () => true,
     onPanResponderEnd: (e, gestureState) => {
-        console.log('pan responder end', gestureState);
-        if (recognizeDrag(gestureState)) {
-            Alert.alert(
-                'Add Favorite',
-                'Are you sure you wish to add ' + campsite.name + ' to favorites?',
-                [
-                    {
-                        text: 'Cancel',
-                        style: 'cancel',
-                        onPress: () => console.log('Cancel Pressed')
-                    },
-                    {
-                        text: 'OK',
-                        onPress: () => props.favorite ?
-                            console.log('Already set as a favorite') : props.markFavorite()
-                    }
-                ],
-                { cancelable: false }
-            );
-        }
-        return true;
+      console.log("pan responder end", gestureState);
+      if (recognizeDrag(gestureState)) {
+        Alert.alert(
+          "Add Favorite",
+          "Are you sure you wish to add " + campsite.name + " to favorites?",
+          [
+            {
+              text: "Cancel",
+              style: "cancel",
+              onPress: () => console.log("Cancel Pressed")
+            },
+            {
+              text: "OK",
+              onPress: () =>
+                props.favorite
+                  ? console.log("Already set as a favorite")
+                  : props.markFavorite()
+            }
+          ],
+          { cancelable: false }
+        );
+      }
+      return true;
     }
-});
+  });
 
   if (campsite) {
     return (
-      <Animatable.View 
-      animation='fadeInDown' 
-      duration={2000} 
-      delay={1000}
-      ref={view}
-      {...panResponder.panHandlers}>
+      <Animatable.View
+        animation="fadeInDown"
+        duration={2000}
+        delay={1000}
+        ref={view}
+        {...panResponder.panHandlers}
+      >
         <Card
           featuredTitle={campsite.name}
           image={{ uri: baseUrl + campsite.image }}
@@ -93,6 +111,22 @@ function RenderCampsite(props) {
               props.favorite
                 ? console.log("Already set as a favorite")
                 : props.markFavorite()
+            }
+          />
+
+          <Icon
+            name={"share"}
+            type="font-awesome"
+            color="#5637DD"
+            style={styles.cardItem}
+            raised
+            reversed
+            onPress={() =>
+              shareCampsite(
+                campsite.name,
+                campsite.description,
+                baseUrl + campsite.image
+              )
             }
           />
 
@@ -203,19 +237,23 @@ class CampsiteInfo extends Component {
               style={{ paddingVertical: 10 }}
             ></Rating>
             <Input
-               placeholder
-               leftIcon= 'user-o'
-               leftIconContainerStyle='padding-right=10'
-               onChangeText='5'
-               value
-            >Author</Input>
+              placeholder
+              leftIcon="user-o"
+              leftIconContainerStyle="padding-right=10"
+              onChangeText="5"
+              value
+            >
+              Author
+            </Input>
             <Input
-                placeholder
-                leftIcon= 'comment-o'
-                leftIconContainerStyle='padding-right=10'
-                onChangeText='5'
-                value
-            >Comment</Input>
+              placeholder
+              leftIcon="comment-o"
+              leftIconContainerStyle="padding-right=10"
+              onChangeText="5"
+              value
+            >
+              Comment
+            </Input>
             <Button></Button>
             <Button
               onPress={() => {
@@ -223,7 +261,6 @@ class CampsiteInfo extends Component {
               }}
               color="#808080"
               title="Cancel"
-
             />
           </View>
         </Modal>
